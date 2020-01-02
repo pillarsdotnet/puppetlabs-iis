@@ -56,6 +56,10 @@ describe 'iis_site', :suite_b do
               enabledprotocols     => 'https',
               bindings             => [
                 {
+                  'bindinginformation'   => '*:80:www.puppet.local',
+                  'protocol'             => 'http',
+                },
+                {
                   'bindinginformation'   => '*:8080:',
                   'protocol'             => 'http',
                 },
@@ -90,7 +94,7 @@ describe 'iis_site', :suite_b do
           apply_manifest(manifest, catch_failures: true)
         end
 
-        it ' runs the manifest a second time without changes' do
+        it 'runs the manifest a second time without changes' do
           # SSL Flags not existing on IIS7 causes an idempotency bug in the provider
           pending('ssl flags do not exist on IIS 7 - MODULES-9894') if target_host_facts['os']['release']['major'].match(/2008/)
           apply_manifest(manifest, catch_changes: true)
@@ -120,7 +124,7 @@ describe 'iis_site', :suite_b do
               ensure               => 'started',
               # Change capitalization to see if it break idempotency
               logpath              => 'C:\\ineTpub\\logs\\NewLogFiles',
-              physicalpath         => 'C:\\ineTpub\\new',
+              physicalpath         => 'C:\\ineTpub\\new'
             }
           HERE
           apply_manifest(manifest, catch_changes: true)
