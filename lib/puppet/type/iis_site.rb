@@ -168,8 +168,13 @@ Puppet::Type.newtype(:iis_site) do
       end
     end
     munge do |value|
-      if !value.nil? && value['certificatehash']
-        value['certificatehash'] = value['certificatehash'].upcase
+      if !value.nil?
+        if value['certificatehash']
+          value['certificatehash'] = value['certificatehash'].upcase
+        end
+        if value['certificatestorename']
+          value['certificatestorename'] = value['certificatestorename'].upcase
+        end
       end
       value
     end
